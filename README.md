@@ -1,12 +1,23 @@
-# React + Vite
+# 🩺 Medix - Sistema de Agendamento Médico
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este projeto é  um sistema de agendamento de consultas médicas. A interface foi construída com **React** e **Material UI**, utilizando **mocks de API** para simular o comportamento do back-end.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📋 Funcionalidades
 
-## Expanding the ESLint configuration
+- Cadastrar e listar **Especialidade**
+- Cadastrar e listar **Convênio**
+- Definir **disponibilidade de horários** 
+- Listar **horários de marcação** (com status de ocupação)
+- Agendar uma **consulta médica**
+- Listar **agendamentos**
+- Gerar e listar **atendimento**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🧪 Tecnologias utilizadas
+
+- [React](https://reactjs.org/)
+- [Vite](https://vitejs.dev/)
+- [Material UI](https://mui.com/)
