@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Card,
-  CardContent,
-  Snackbar,
-  Alert,
-} from '@mui/material';
+import { TextField, Button, Snackbar, Alert } from '@mui/material';
 import { cadastrarConvenio } from '../../services/convenioService';
+import AdminCard from '../../components/AdminCard';
 
 export default function CadastrarConvenio() {
   const [nome, setNome] = useState('');
@@ -24,29 +16,27 @@ export default function CadastrarConvenio() {
   };
 
   return (
-    <Box maxWidth={500} mx="auto" mt={4}>
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Cadastrar Convênio
-          </Typography>
-          <TextField
-            label="Nome do convênio"
-            fullWidth
-            margin="normal"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleCadastrar}
-            disabled={!nome}
-          >
-            Cadastrar
-          </Button>
-        </CardContent>
-      </Card>
+    <>
+      <AdminCard title="Cadastrar Convênio">
+        <TextField
+          label="Nome do convênio"
+          fullWidth
+          margin="normal"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+        />
+
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          onClick={handleCadastrar}
+          disabled={!nome}
+          sx={{ mt: 2 }}
+        >
+          Cadastrar
+        </Button>
+      </AdminCard>
 
       <Snackbar
         open={!!mensagem}
@@ -57,6 +47,6 @@ export default function CadastrarConvenio() {
           {mensagem}
         </Alert>
       </Snackbar>
-    </Box>
+    </>
   );
 }

@@ -1,30 +1,39 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  Box,
+  CssBaseline,
+  Container,
+} from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 
 import Home from './pages/Home';
 import Admin from './pages/Admin';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import theme from './theme';
 
 function App() {
   return (
-    <Router>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Medix
-          </Typography>
-          <Button color="inherit" component={Link} to="/">Início</Button>
-          <Button color="inherit" component={Link} to="/admin">Admin</Button>
-        </Toolbar>
-      </AppBar>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Box display="flex" flexDirection="column" minHeight="100vh">
+          <Header />
 
-      <Box sx={{ padding: 2 }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/admin" element={<Admin />} />
-        </Routes>
-      </Box>
-    </Router>
+          <Box flex={1} p={2}>
+            <Container maxWidth="md">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/admin" element={<Admin />} />
+              </Routes>
+            </Container>
+          </Box>
+
+          <Footer />
+        </Box>
+      </Router>
+    </ThemeProvider>
   );
 }
 

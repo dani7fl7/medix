@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box,
-  Typography,
-  Card,
-  CardContent,
   List,
   ListItem,
   ListItemText,
   Divider,
+  Typography,
 } from '@mui/material';
 import { getEspecialidades } from '../../services/especialidadeService';
+import AdminCard from '../../components/AdminCard';
 
 export default function ListarEspecialidade() {
   const [especialidades, setEspecialidades] = useState([]);
@@ -23,24 +21,21 @@ export default function ListarEspecialidade() {
   }, []);
 
   return (
-    <Box maxWidth={500} mx="auto" mt={4}>
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Especialidades Cadastradas
-          </Typography>
-          <List>
-            {especialidades.map((esp) => (
-              <React.Fragment key={esp.id}>
-                <ListItem>
-                  <ListItemText primary={esp.nome} />
-                </ListItem>
-                <Divider />
-              </React.Fragment>
-            ))}
-          </List>
-        </CardContent>
-      </Card>
-    </Box>
+    <AdminCard title="Especialidades Cadastradas">
+      {especialidades.length === 0 ? (
+        <Typography color="text.secondary">Nenhuma especialidade cadastrada.</Typography>
+      ) : (
+        <List>
+          {especialidades.map((esp) => (
+            <React.Fragment key={esp.id}>
+              <ListItem disablePadding>
+                <ListItemText primary={esp.nome} sx={{ pl: 1 }} />
+              </ListItem>
+              <Divider />
+            </React.Fragment>
+          ))}
+        </List>
+      )}
+    </AdminCard>
   );
 }
