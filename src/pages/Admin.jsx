@@ -1,58 +1,77 @@
-import { useEffect, useState } from 'react';
-import { Box, Divider, Typography } from '@mui/material';
+// src/pages/Admin.jsx
+import React, { useState } from 'react';
+import {
+  Box,
+  Tabs,
+  Tab,
+  Typography,
+  Divider,
+} from '@mui/material';
 
-// Especialidades
 import CadastrarEspecialidade from '../features/especialidades/CadastrarEspecialidade';
 import ListarEspecialidade from '../features/especialidades/ListarEspecialidade';
-import {
-  listarEspecialidades,
-  cadastrarEspecialidade,
-} from '../services/especialidadeService';
-
-// Convênios
 import CadastrarConvenio from '../features/convenios/CadastrarConvenio';
 import ListarConvenio from '../features/convenios/ListarConvenio';
-import {
-  listarConvenios,
-  cadastrarConvenio,
-} from '../services/convenioService';
+import DefinirDisponibilidade from '../features/disponibilidades/DefinirDisponibilidade';
+import GerarAtendimento from '../features/atendimentos/GerarAtendimento';
+import ListarAtendimento from '../features/atendimentos/ListarAtendimento';
+
+function TabPainel({ children, value, index }) {
+  return value === index ? (
+    <Box mt={3}>
+      {children}
+    </Box>
+  ) : null;
+}
 
 export default function Admin() {
-  const [especialidades, setEspecialidades] = useState([]);
-  const [convenios, setConvenios] = useState([]);
+  const [abaSelecionada, setAbaSelecionada] = useState(0);
 
-  useEffect(() => {
-    listarEspecialidades().then(setEspecialidades);
-    listarConvenios().then(setConvenios);
-  }, []);
-
-  const handleCadastrarEspecialidade = async (nova) => {
-    const resultado = await cadastrarEspecialidade(nova);
-    setEspecialidades((prev) => [...prev, resultado]);
-  };
-
-  const handleCadastrarConvenio = async (novo) => {
-    const resultado = await cadastrarConvenio(novo);
-    setConvenios((prev) => [...prev, resultado]);
+  const handleChange = (event, newValue) => {
+    setAbaSelecionada(newValue);
   };
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box p={4}>
       <Typography variant="h4" gutterBottom>
         Painel Administrativo
       </Typography>
 
-      <Divider sx={{ my: 3 }} />
+      <Tabs
+        value={abaSelecionada}
+        onChange={handleChange}
+        indicatorColor="primary"
+        textColor="primary"
+        variant="scrollable"
+        scrollButtons="auto"
+      >
+        <Tab label="Especialidades" />
+        <Tab label="Convênios" />
+        <Tab label="Disponibilidade" />
+        <Tab label="Atendimentos" />
+      </Tabs>
 
-      <Typography variant="h5">Especialidades</Typography>
-      <CadastrarEspecialidade onCadastrar={handleCadastrarEspecialidade} />
-      <ListarEspecialidade especialidades={especialidades} />
+      <Divider sx={{ my: 2 }} />
 
-      <Divider sx={{ my: 3 }} />
+      {/* Abas */}
+      <TabPainel value={abaSelecionada} index={0}>
+        <CadastrarEspecialidade />
+        <ListarEspecialidade />
+      </TabPainel>
 
-      <Typography variant="h5">Convênios</Typography>
-      <CadastrarConvenio onCadastrar={handleCadastrarConvenio} />
-      <ListarConvenio convenios={convenios} />
+      <TabPainel value={abaSelecionada} index={1}>
+        <CadastrarConvenio />
+        <ListarConvenio />
+      </TabPainel>
+
+      <TabPainel value={abaSelecionada} index={2}>
+        <DefinirDisponibilidade />
+      </TabPainel>
+
+      <TabPainel value={abaSelecionada} index={3}>
+        <GerarAtendimento />
+        <ListarAtendimento />
+      </TabPainel>
     </Box>
   );
 }

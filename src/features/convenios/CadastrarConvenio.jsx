@@ -1,33 +1,62 @@
-import { useState } from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Card,
+  CardContent,
+  Snackbar,
+  Alert,
+} from '@mui/material';
+import { cadastrarConvenio } from '../../services/convenioService';
 
-export default function CadastrarConvenio({ onCadastrar }) {
+export default function CadastrarConvenio() {
   const [nome, setNome] = useState('');
+  const [mensagem, setMensagem] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!nome.trim()) return;
-
-    const novoConvenio = {
-      id: Date.now(), // Simula um ID único
-      nome: nome.trim(),
-    };
-
-    onCadastrar(novoConvenio);
-    setNome('');
+  const handleCadastrar = async () => {
+    const resultado = await cadastrarConvenio({ nome });
+    if (resultado?.id) {
+      setMensagem(`Convênio cadastrado com ID ${resultado.id}`);
+      setNome('');
+    }
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-      <TextField
-        label="Nome do Convênio"
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
-        fullWidth
-      />
-      <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-        Cadastrar
-      </Button>
+    <Box maxWidth={500} mx="auto" mt={4}>
+      <Card>
+        <CardContent>
+          <Typography variant="h6" gutterBottom>
+            Cadastrar Convênio
+          </Typography>
+          <TextField
+            label="Nome do convênio"
+            fullWidth
+            margin="normal"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCadastrar}
+            disabled={!nome}
+          >
+            Cadastrar
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Snackbar
+        open={!!mensagem}
+        autoHideDuration={3000}
+        onClose={() => setMensagem('')}
+      >
+        <Alert severity="success" onClose={() => setMensagem('')}>
+          {mensagem}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

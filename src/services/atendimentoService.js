@@ -1,12 +1,17 @@
-import { listarAgendamentos } from './agendamentoService';
+const atendimentosMock = [];
 
-// Marca o agendamento como atendido
-export function gerarAtendimento(id) {
-  return listarAgendamentos().then((agendamentos) => {
-    const index = agendamentos.findIndex((ag) => ag.id === id);
-    if (index !== -1) {
-      agendamentos[index].atendido = true;
-    }
-    return Promise.resolve(agendamentos[index]);
-  });
+export async function gerarAtendimento({ agendamentoId }) {
+  const novo = {
+    id: atendimentosMock.length + 1,
+    paciente: `Paciente ${agendamentoId}`,
+    dataHora: new Date().toISOString(),
+    especialidadeId: 1,
+    medico: 'Dr. João Silva',
+  };
+  atendimentosMock.push(novo);
+  return novo;
+}
+
+export async function getAtendimentos() {
+  return atendimentosMock;
 }

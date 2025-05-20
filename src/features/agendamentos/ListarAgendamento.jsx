@@ -1,26 +1,75 @@
+import React, { useEffect, useState } from 'react';
 import {
-    List,
-    ListItem,
-    ListItemText,
-    Typography,
-  } from '@mui/material';
-  
-  export default function ListarAgendamento({ agendamentos }) {
-    if (agendamentos.length === 0) {
-      return <Typography sx={{ mt: 2 }}>Nenhum agendamento realizado.</Typography>;
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+} from '@mui/material';
+import { getAgendamentos } from '../../services/agendamentoService';
+
+export default function ListarAgendamento() {
+  const [agendamentos, setAgendamentos] = useState([]);
+
+  useEffect(() => {
+    async function carregar() {
+      const lista = await getAgendamentos();
+      setAgendamentos(lista);
     }
-  
-    return (
-      <List sx={{ mt: 2 }}>
-        {agendamentos.map((ag) => (
-          <ListItem key={ag.id} divider>
-            <ListItemText
-              primary={`${ag.paciente} - ${ag.horario}`}
-              secondary={`Especialidade ID: ${ag.especialidadeId} | Convênio ID: ${ag.convenioId}`}
-            />
-          </ListItem>
-        ))}
-      </List>
-    );
-  }
-  
+    carregar();
+  }, []);
+
+  return (
+    <Box maxWidth="md" mx="auto" mt={4}>
+      <Card>
+        <CardContent>
+          <Typography variant="h6" gutterBottom>
+            Agendamentos Realizados
+          </Typography>
+
+          {agendamentos.length === 0 ? (
+            <Typography color="text.secondary">Nenhum agendamento encontrado.</Typography>
+          ) : (
+            <Paper>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Paciente</TableCell>
+                    <TableCell>Especialidade</TableCell>
+                    <TableCell>Médico</TableCell>
+                    <TableCell>Convênio</TableCell>
+                    <TableCell>Data</TableCell>
+                    <TableCell>Hora</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {agendamentos.map((ag, i) => {
+                    const dataObj = new Date(ag.dataHora);
+                    const data = dataObj.toLocaleDateString('pt-BR');
+                    const hora = dataObj.toTimeString().slice(0, 5);
+
+                    return (
+                      <TableRow key={i}>
+                        <TableCell>{ag.paciente}</TableCell>
+                        <TableCell>{ag.especialidadeId}</TableCell>
+                        <TableCell>{ag.medico}</TableCell>
+                        <TableCell>{ag.convenioId}</TableCell>
+                        <TableCell>{data}</TableCell>
+                        <TableCell>{hora}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </Paper>
+          )}
+        </CardContent>
+      </Card>
+    </Box>
+  );
+}
