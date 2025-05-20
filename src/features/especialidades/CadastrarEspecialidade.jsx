@@ -1,33 +1,62 @@
-import { useState } from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Card,
+  CardContent,
+  Snackbar,
+  Alert,
+} from '@mui/material';
+import { cadastrarEspecialidade } from '../../services/especialidadeService';
 
-export default function CadastrarEspecialidade({ onCadastrar }) {
+export default function CadastrarEspecialidade() {
   const [nome, setNome] = useState('');
+  const [mensagem, setMensagem] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!nome.trim()) return;
-
-    const novaEspecialidade = {
-      id: Date.now(), // simula um ID único
-      nome: nome.trim(),
-    };
-
-    onCadastrar(novaEspecialidade);
-    setNome('');
+  const handleCadastrar = async () => {
+    const resultado = await cadastrarEspecialidade({ nome });
+    if (resultado?.id) {
+      setMensagem(`Especialidade cadastrada com ID ${resultado.id}`);
+      setNome('');
+    }
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-      <TextField
-        label="Nome da Especialidade"
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
-        fullWidth
-      />
-      <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-        Cadastrar
-      </Button>
+    <Box maxWidth={500} mx="auto" mt={4}>
+      <Card>
+        <CardContent>
+          <Typography variant="h6" gutterBottom>
+            Cadastrar Especialidade
+          </Typography>
+          <TextField
+            label="Nome da especialidade"
+            fullWidth
+            margin="normal"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCadastrar}
+            disabled={!nome}
+          >
+            Cadastrar
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Snackbar
+        open={!!mensagem}
+        autoHideDuration={3000}
+        onClose={() => setMensagem('')}
+      >
+        <Alert severity="success" onClose={() => setMensagem('')}>
+          {mensagem}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

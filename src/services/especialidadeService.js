@@ -1,17 +1,17 @@
-let especialidades = [
-    // simulação de dados iniciais
-    { id: 1, nome: 'Cardiologia' },
-    { id: 2, nome: 'Dermatologia' },
-  ];
-  
-  // Simula GET
-  export function listarEspecialidades() {
-    return Promise.resolve(especialidades);
-  }
-  
-  // Simula POST
-  export function cadastrarEspecialidade(especialidade) {
-    especialidades.push(especialidade);
-    return Promise.resolve(especialidade);
-  }
-  
+let especialidadesMock = [
+  { id: 1, nome: 'Cardiologia' },
+  { id: 2, nome: 'Dermatologia' },
+];
+
+export async function getEspecialidades() {
+  return especialidadesMock;
+}
+
+export async function cadastrarEspecialidade({ nome }) {
+  const nova = {
+    id: especialidadesMock.length + 1,
+    nome,
+  };
+  especialidadesMock.push(nova);
+  return nova;
+}

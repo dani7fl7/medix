@@ -1,17 +1,46 @@
-import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+} from '@mui/material';
+import { getConvenios } from '../../services/convenioService';
 
-export default function ListarConvenio({ convenios }) {
-  if (convenios.length === 0) {
-    return <Typography sx={{ mt: 2 }}>Nenhum convênio cadastrado.</Typography>;
-  }
+export default function ListarConvenio() {
+  const [convenios, setConvenios] = useState([]);
+
+  useEffect(() => {
+    async function carregar() {
+      const lista = await getConvenios();
+      setConvenios(lista);
+    }
+    carregar();
+  }, []);
 
   return (
-    <List sx={{ mt: 2 }}>
-      {convenios.map((conv) => (
-        <ListItem key={conv.id} divider>
-          <ListItemText primary={conv.nome} />
-        </ListItem>
-      ))}
-    </List>
+    <Box maxWidth={500} mx="auto" mt={4}>
+      <Card>
+        <CardContent>
+          <Typography variant="h6" gutterBottom>
+            Convênios Cadastrados
+          </Typography>
+          <List>
+            {convenios.map((conv) => (
+              <React.Fragment key={conv.id}>
+                <ListItem>
+                  <ListItemText primary={conv.nome} />
+                </ListItem>
+                <Divider />
+              </React.Fragment>
+            ))}
+          </List>
+        </CardContent>
+      </Card>
+    </Box>
   );
 }
