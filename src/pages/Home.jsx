@@ -31,7 +31,7 @@ const diasSemana = [
   'Quarta',
   'Quinta',
   'Sexta',
-  'Sábado',
+  'Sabado',
 ];
 
 export default function Home() {
@@ -137,7 +137,7 @@ export default function Home() {
       dataHora: dataHoraISO,
       medico: medicoSelecionado,
     });
-    setMensagemSucesso(`Consulta agendada com ID ${resultado.id}`);
+    setMensagemSucesso(`Consulta agendada! ${resultado.id}`);
     setNomePaciente('');
     setConvenioSelecionado('');
     setEspecialidadeSelecionada('');
@@ -147,108 +147,119 @@ export default function Home() {
   };
 
   return (
-    <Box
-      p={4}
-      maxWidth={400}
-      mx="auto"
-      borderRadius={3}
-      boxShadow={3}
-      bgcolor="#f8f8f8"
-    >
-      <Typography variant="h5" fontWeight="bold" color="#2e7be8" mb={3}>
-        Agende sua consulta
-      </Typography>
-
-      <TextField
-        fullWidth
-        label="Paciente"
-        margin="normal"
-        value={nomePaciente}
-        onChange={(e) => setNomePaciente(e.target.value)}
-      />
-
-      <FormControl fullWidth margin="normal">
-        <InputLabel>Convênio</InputLabel>
-        <Select
-          value={convenioSelecionado}
-          onChange={(e) => setConvenioSelecionado(e.target.value)}
-          label="Convênio"
-        >
-          {convenios.map((conv) => (
-            <MenuItem key={conv.id} value={conv.id}>
-              {conv.nome}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <FormControl fullWidth margin="normal">
-        <InputLabel>Especialidade</InputLabel>
-        <Select
-          value={especialidadeSelecionada}
-          onChange={handleEspecialidadeChange}
-          label="Especialidade"
-        >
-          {especialidades.map((esp) => (
-            <MenuItem key={esp.id} value={esp.id}>
-              {esp.nome}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <FormControl fullWidth margin="normal" disabled={!especialidadeSelecionada}>
-        <InputLabel>Médico</InputLabel>
-        <Select
-          value={medicoSelecionado}
-          onChange={handleMedicoChange}
-          label="Médico"
-        >
-          {medicosDisponiveis.map((med, index) => (
-            <MenuItem key={index} value={med}>
-              {med}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <FormControl fullWidth margin="normal" disabled={opcoesHorario.length === 0}>
-        <InputLabel>Horário</InputLabel>
-        <Select
-          value={horarioSelecionado || ''}
-          onChange={(e) => setHorarioSelecionado(e.target.value)}
-          label="Horário"
-        >
-          {opcoesHorario.map((op, index) => (
-            <MenuItem key={index} value={op.value}>
-              {op.label}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <Button
-        fullWidth
-        variant="contained"
-        color="success"
-        sx={{ mt: 3 }}
-        onClick={handleAgendar}
-        disabled={
-          !nomePaciente || !convenioSelecionado || !especialidadeSelecionada || !medicoSelecionado || !horarioSelecionado
-        }
+    <Box px={2} py={4}>
+      <Box
+        p={4}
+        maxWidth={500}
+        mx="auto"
+        borderRadius={3}
+        boxShadow={3}
+        bgcolor="#fff"
       >
-        Agendar
-      </Button>
+        <Typography
+          variant="h6"
+          fontWeight="bold"
+          color="primary"
+          gutterBottom
+        >
+          Agende sua consulta
+        </Typography>
 
-      <Snackbar
-        open={!!mensagemSucesso}
-        autoHideDuration={4000}
-        onClose={() => setMensagemSucesso('')}
-      >
-        <Alert severity="success" onClose={() => setMensagemSucesso('')}>
-          {mensagemSucesso}
-        </Alert>
-      </Snackbar>
+        <TextField
+          fullWidth
+          label="Paciente"
+          margin="normal"
+          value={nomePaciente}
+          onChange={(e) => setNomePaciente(e.target.value)}
+        />
+
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Convênio</InputLabel>
+          <Select
+            value={convenioSelecionado}
+            onChange={(e) => setConvenioSelecionado(e.target.value)}
+            label="Convênio"
+          >
+            {convenios.map((conv) => (
+              <MenuItem key={conv.id} value={conv.id}>
+                {conv.nome}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Especialidade</InputLabel>
+          <Select
+            value={especialidadeSelecionada}
+            onChange={handleEspecialidadeChange}
+            label="Especialidade"
+          >
+            {especialidades.map((esp) => (
+              <MenuItem key={esp.id} value={esp.id}>
+                {esp.nome}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth margin="normal" disabled={!especialidadeSelecionada}>
+          <InputLabel>Médico</InputLabel>
+          <Select
+            value={medicoSelecionado}
+            onChange={handleMedicoChange}
+            label="Médico"
+          >
+            {medicosDisponiveis.map((med, index) => (
+              <MenuItem key={index} value={med}>
+                {med}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth margin="normal" disabled={opcoesHorario.length === 0}>
+          <InputLabel>Horário</InputLabel>
+          <Select
+            value={horarioSelecionado || ''}
+            onChange={(e) => setHorarioSelecionado(e.target.value)}
+            label="Horário"
+          >
+            {opcoesHorario.map((op, index) => (
+              <MenuItem key={index} value={op.value}>
+                {op.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          sx={{ mt: 3 }}
+          onClick={handleAgendar}
+          disabled={
+            !nomePaciente ||
+            !convenioSelecionado ||
+            !especialidadeSelecionada ||
+            !medicoSelecionado ||
+            !horarioSelecionado
+          }
+        >
+          Agendar
+        </Button>
+
+        <Snackbar
+          open={!!mensagemSucesso}
+          autoHideDuration={4000}
+          onClose={() => setMensagemSucesso('')}
+        >
+          <Alert severity="success" onClose={() => setMensagemSucesso('')}>
+            {mensagemSucesso}
+          </Alert>
+        </Snackbar>
+      </Box>
     </Box>
   );
 }

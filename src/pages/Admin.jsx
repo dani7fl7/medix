@@ -1,4 +1,3 @@
-// src/pages/Admin.jsx
 import React, { useState } from 'react';
 import {
   Box,
@@ -15,6 +14,7 @@ import ListarConvenio from '../features/convenios/ListarConvenio';
 import DefinirDisponibilidade from '../features/disponibilidades/DefinirDisponibilidade';
 import GerarAtendimento from '../features/atendimentos/GerarAtendimento';
 import ListarAtendimento from '../features/atendimentos/ListarAtendimento';
+import ListarAgendamento from '../features/agendamentos/ListarAgendamento'; // <-- adicionado
 
 function TabPainel({ children, value, index }) {
   return value === index ? (
@@ -48,12 +48,12 @@ export default function Admin() {
         <Tab label="Especialidades" />
         <Tab label="Convênios" />
         <Tab label="Disponibilidade" />
+        <Tab label="Agendamentos" />
         <Tab label="Atendimentos" />
       </Tabs>
 
       <Divider sx={{ my: 2 }} />
 
-      {/* Abas */}
       <TabPainel value={abaSelecionada} index={0}>
         <CadastrarEspecialidade />
         <ListarEspecialidade />
@@ -69,6 +69,10 @@ export default function Admin() {
       </TabPainel>
 
       <TabPainel value={abaSelecionada} index={3}>
+        <ListarAgendamento />
+      </TabPainel>
+
+      <TabPainel value={abaSelecionada} index={4}>
         <GerarAtendimento />
         <ListarAtendimento />
       </TabPainel>

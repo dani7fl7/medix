@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box,
-  Typography,
-  Card,
-  CardContent,
   List,
   ListItem,
   ListItemText,
   Divider,
+  Typography,
 } from '@mui/material';
 import { getConvenios } from '../../services/convenioService';
+import AdminCard from '../../components/AdminCard';
 
 export default function ListarConvenio() {
   const [convenios, setConvenios] = useState([]);
@@ -23,24 +21,21 @@ export default function ListarConvenio() {
   }, []);
 
   return (
-    <Box maxWidth={500} mx="auto" mt={4}>
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Convênios Cadastrados
-          </Typography>
-          <List>
-            {convenios.map((conv) => (
-              <React.Fragment key={conv.id}>
-                <ListItem>
-                  <ListItemText primary={conv.nome} />
-                </ListItem>
-                <Divider />
-              </React.Fragment>
-            ))}
-          </List>
-        </CardContent>
-      </Card>
-    </Box>
+    <AdminCard title="Convênios Cadastrados">
+      {convenios.length === 0 ? (
+        <Typography color="text.secondary">Nenhum convênio cadastrado.</Typography>
+      ) : (
+        <List>
+          {convenios.map((conv) => (
+            <React.Fragment key={conv.id}>
+              <ListItem disablePadding>
+                <ListItemText primary={conv.nome} sx={{ pl: 1 }} />
+              </ListItem>
+              <Divider />
+            </React.Fragment>
+          ))}
+        </List>
+      )}
+    </AdminCard>
   );
 }
